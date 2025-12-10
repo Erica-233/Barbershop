@@ -81,7 +81,7 @@ class BarberController:
         """
         barber = self.get_barber(barber_id)
         if barber:
-            if name:
+            if name is not None:
                 barber.name = name
             if specialty is not None:
                 barber.specialty = specialty

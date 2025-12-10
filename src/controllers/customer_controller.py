@@ -98,9 +98,9 @@ class CustomerController:
         """
         customer = self.get_customer(customer_id)
         if customer:
-            if name:
+            if name is not None:
                 customer.name = name
-            if phone:
+            if phone is not None:
                 customer.phone = phone
             if email is not None:
                 customer.email = email

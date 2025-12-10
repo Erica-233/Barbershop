@@ -84,7 +84,7 @@ class ServiceController:
         """
         service = self.get_service(service_id)
         if service:
-            if name:
+            if name is not None:
                 service.name = name
             if duration is not None:
                 service.duration = duration

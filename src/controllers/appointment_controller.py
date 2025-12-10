@@ -91,13 +91,13 @@ class AppointmentController:
         """
         appointment = self.get_appointment(appointment_id)
         if appointment:
-            if customer_id:
+            if customer_id is not None:
                 appointment.customer_id = customer_id
-            if barber_id:
+            if barber_id is not None:
                 appointment.barber_id = barber_id
-            if service_id:
+            if service_id is not None:
                 appointment.service_id = service_id
-            if appointment_datetime:
+            if appointment_datetime is not None:
                 appointment.appointment_datetime = appointment_datetime
             if notes is not None:
                 appointment.notes = notes
