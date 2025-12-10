@@ -1,0 +1,2 @@
+# Barbershop Management System Requirements
+# No external dependencies required for basic functionality
