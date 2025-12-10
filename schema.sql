@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS customers (
 CREATE TABLE IF NOT EXISTS barbers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    status TEXT NOT NULL
+    status TEXT NOT NULL CHECK(status IN ('available', 'busy', 'unavailable'))
 );
 
 -- Services table
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     barber_id INTEGER NOT NULL,
     service_id INTEGER NOT NULL,
     appointment_date TEXT NOT NULL,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('scheduled', 'completed', 'cancelled')),
     FOREIGN KEY (customer_id) REFERENCES customers(id),
     FOREIGN KEY (barber_id) REFERENCES barbers(id),
     FOREIGN KEY (service_id) REFERENCES services(id)

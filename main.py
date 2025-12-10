@@ -6,9 +6,14 @@ barbers, services, and appointments.
 
 import sqlite3
 import os
+from datetime import datetime, timedelta
 
 
 DB_NAME = "barbershop.db"
+
+# Status constants
+BARBER_STATUS_AVAILABLE = "available"
+APPOINTMENT_STATUS_SCHEDULED = "scheduled"
 
 
 def init_db():
@@ -55,7 +60,7 @@ def add_barber(name):
     
     cursor.execute(
         "INSERT INTO barbers (name, status) VALUES (?, ?)",
-        (name, "available")
+        (name, BARBER_STATUS_AVAILABLE)
     )
     conn.commit()
     barber_id = cursor.lastrowid
@@ -92,7 +97,7 @@ def book_appointment(customer_id, barber_id, service_id, date):
             """INSERT INTO appointments 
                (customer_id, barber_id, service_id, appointment_date, status) 
                VALUES (?, ?, ?, ?, ?)""",
-            (customer_id, barber_id, service_id, date, "scheduled")
+            (customer_id, barber_id, service_id, date, APPOINTMENT_STATUS_SCHEDULED)
         )
         conn.commit()
         appointment_id = cursor.lastrowid
@@ -168,10 +173,18 @@ def main():
     
     print("\n--- Booking Appointments ---\n")
     
-    # Book sample appointments
-    book_appointment(customer1_id, barber1_id, service1_id, "2024-01-15 10:00:00")
-    book_appointment(customer2_id, barber2_id, service3_id, "2024-01-15 11:00:00")
-    book_appointment(customer1_id, barber2_id, service2_id, "2024-01-16 14:00:00")
+    # Book sample appointments (using dates relative to today)
+    today = datetime.now()
+    tomorrow = today + timedelta(days=1)
+    next_week = today + timedelta(days=7)
+    
+    date1 = today.strftime("%Y-%m-%d 10:00:00")
+    date2 = today.strftime("%Y-%m-%d 11:00:00")
+    date3 = tomorrow.strftime("%Y-%m-%d 14:00:00")
+    
+    book_appointment(customer1_id, barber1_id, service1_id, date1)
+    book_appointment(customer2_id, barber2_id, service3_id, date2)
+    book_appointment(customer1_id, barber2_id, service2_id, date3)
     
     print("\n--- Retrieving All Appointments ---\n")
     
