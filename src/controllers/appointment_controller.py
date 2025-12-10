@@ -161,5 +161,9 @@ class AppointmentController:
             return "A001"
         
         # Extract numeric part from last ID and increment
-        last_id = max(int(a.appointment_id[1:]) for a in self.appointments)
-        return f"A{last_id + 1:03d}"
+        try:
+            last_id = max(int(a.appointment_id[1:]) for a in self.appointments if a.appointment_id.startswith('A') and a.appointment_id[1:].isdigit())
+            return f"A{last_id + 1:03d}"
+        except (ValueError, IndexError):
+            # Fallback: count existing appointments and add 1
+            return f"A{len(self.appointments) + 1:03d}"

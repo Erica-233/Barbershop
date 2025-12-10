@@ -135,5 +135,9 @@ class CustomerController:
             return "C001"
         
         # Extract numeric part from last ID and increment
-        last_id = max(int(c.customer_id[1:]) for c in self.customers)
-        return f"C{last_id + 1:03d}"
+        try:
+            last_id = max(int(c.customer_id[1:]) for c in self.customers if c.customer_id.startswith('C') and c.customer_id[1:].isdigit())
+            return f"C{last_id + 1:03d}"
+        except (ValueError, IndexError):
+            # Fallback: count existing customers and add 1
+            return f"C{len(self.customers) + 1:03d}"

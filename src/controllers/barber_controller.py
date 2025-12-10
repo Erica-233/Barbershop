@@ -118,5 +118,9 @@ class BarberController:
             return "B001"
         
         # Extract numeric part from last ID and increment
-        last_id = max(int(b.barber_id[1:]) for b in self.barbers)
-        return f"B{last_id + 1:03d}"
+        try:
+            last_id = max(int(b.barber_id[1:]) for b in self.barbers if b.barber_id.startswith('B') and b.barber_id[1:].isdigit())
+            return f"B{last_id + 1:03d}"
+        except (ValueError, IndexError):
+            # Fallback: count existing barbers and add 1
+            return f"B{len(self.barbers) + 1:03d}"

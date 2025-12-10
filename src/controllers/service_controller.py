@@ -123,5 +123,9 @@ class ServiceController:
             return "S001"
         
         # Extract numeric part from last ID and increment
-        last_id = max(int(s.service_id[1:]) for s in self.services)
-        return f"S{last_id + 1:03d}"
+        try:
+            last_id = max(int(s.service_id[1:]) for s in self.services if s.service_id.startswith('S') and s.service_id[1:].isdigit())
+            return f"S{last_id + 1:03d}"
+        except (ValueError, IndexError):
+            # Fallback: count existing services and add 1
+            return f"S{len(self.services) + 1:03d}"
